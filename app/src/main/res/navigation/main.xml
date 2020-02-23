@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    tools:ignore="UnusedNavigation"
+    app:startDestination="@id/my_frag1"
+    >
+<fragment android:id="@+id/my_frag1"
+    android:name="com.example.chernobyl.BlankFragment"
+    android:label="myfrag"
+    tools:layout="@layout/fragment_blank"
+    ></fragment>
+    <fragment android:id="@+id/my_frag2"
+        android:name="com.example.chernobyl.CategoryFragment"
+        android:label="myfrag"
+        tools:layout="@layout/fragment_category_frag"
+        ></fragment>
+</navigation>
