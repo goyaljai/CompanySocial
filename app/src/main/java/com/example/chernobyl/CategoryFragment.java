@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.collection.LruCache;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.chernobyl.classes.ImageModel;
@@ -35,7 +37,7 @@ public class CategoryFragment extends Fragment {
     private static int currentPage = 0;
     private static int NUM_PAGES = 0;
     private ArrayList<ImageModel> imageModelArrayList;
-
+    private SwipeRefreshLayout refreshLayout;
     private int[] myImageList = new int[]{R.drawable.my8, R.drawable.my2,
             R.drawable.my4, R.drawable.my3
             , R.drawable.my5, R.drawable.my6};
@@ -54,12 +56,13 @@ public class CategoryFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
     }
-
+    int count=0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_category_frag, container, false);
+        refreshLayout = view.findViewById(R.id.refresh);
         slider = view.findViewById(R.id.slider);
 
         imageModelArrayList = new ArrayList<>();
@@ -67,8 +70,16 @@ public class CategoryFragment extends Fragment {
         init();
         listViewAdapter = new ListViewAdapter(mContext, mCategory, mLruCacheList);
         ListView listView = view.findViewById(R.id.listView);
-        listView.setAdapter(listViewAdapter);
 
+        listView.setAdapter(listViewAdapter);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Toast.makeText(mContext,"Count is"+count,Toast.LENGTH_LONG).show();
+                count++;
+                refreshLayout.setRefreshing(false);
+            }
+        });
         return view;
     }
 
