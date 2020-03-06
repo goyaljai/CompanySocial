@@ -12,7 +12,7 @@
         android:layout_marginLeft="25dp"
         android:gravity="left"
 
-        android:text="hello whats up"
+        android:text="hello whats "
         android:textColor="#DDE0F5"
         android:textFontWeight="@android:integer/config_longAnimTime"
         android:textSize="20dp"
