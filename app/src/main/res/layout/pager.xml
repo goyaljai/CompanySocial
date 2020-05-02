@@ -5,17 +5,16 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-     <TextView
+    <TextView
         android:id="@+id/category_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="20dp"
         android:gravity="left"
-
-        android:text="hello whats "
+        android:text="hello whats up"
         android:textColor="#DDE0F5"
-        android:textFontWeight="@android:integer/config_longAnimTime"
-        android:textSize="20dp"
+        android:textFontWeight="700"
+        android:textSize="15dp"
         android:textStyle="bold" />
 
     <androidx.viewpager.widget.ViewPager
