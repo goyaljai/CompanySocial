@@ -29,6 +29,7 @@
 
     <TextView
         android:id="@+id/t1"
+        android:textSize="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
@@ -37,9 +38,11 @@
 
     <TextView
         android:id="@+id/t2"
+        android:textSize="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
+        android:paddingLeft="15dp"
         android:textColor="#DDE0F5" />
 
 
