@@ -27,7 +27,7 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class CategoryFragment extends Fragment {
     //private androidx.collection.LruCache<Integer, Bitmap> mLruCache;
-    private ArrayList<LruCache<Integer, Bitmap>> mLruCacheList;
+    //private ArrayList<LruCache<Integer, Bitmap>> mLruCacheList;
     private ListViewAdapter listViewAdapter;
     private MainCategory mCategory;
     private ViewPager page;
@@ -46,8 +46,8 @@ public class CategoryFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public CategoryFragment(Context mContext, ArrayList<LruCache<Integer, Bitmap>> mLruCacheList, MainCategory mCategory) {
-        this.mLruCacheList = mLruCacheList;
+    public CategoryFragment(Context mContext, MainCategory mCategory) {
+       // this.mLruCacheList = mLruCacheList;
         this.mCategory = mCategory;
         this.mContext = mContext;
     }
@@ -56,7 +56,7 @@ public class CategoryFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
     }
-    int count=0;
+    private int count=0;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,7 +68,7 @@ public class CategoryFragment extends Fragment {
         imageModelArrayList = new ArrayList<>();
         imageModelArrayList = populateList();
         init();
-        listViewAdapter = new ListViewAdapter(mContext, mCategory, mLruCacheList);
+        listViewAdapter = new ListViewAdapter(mContext, mCategory);
         ListView listView = view.findViewById(R.id.listView);
 
         listView.setAdapter(listViewAdapter);

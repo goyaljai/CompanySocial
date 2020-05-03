@@ -1,18 +1,17 @@
 package com.example.chernobyl.classes;
 
-public class MainCategoryData {
-    private int id;
-    private String title;
-    private String imagesUrl;
-    private String imagesTitle;
-    private String imagesDescription;
+import com.squareup.moshi.Json;
 
-    public MainCategoryData(int id, String title, String imagesUrl, String imagesTitle, String imagesDescription) {
+public class MainCategoryData {
+    @Json(name = "id")
+    private int id;
+
+    @Json(name = "title")
+    private String title;
+
+    public MainCategoryData(int id, String title) {
         this.id = id;
         this.title = title;
-        this.imagesUrl = imagesUrl;
-        this.imagesTitle = imagesTitle;
-        this.imagesDescription = imagesDescription;
     }
 
     public int getId() {
@@ -21,18 +20,6 @@ public class MainCategoryData {
 
     public String getTitle() {
         return title;
-    }
-
-    public String getUrl() {
-        return imagesUrl;
-    }
-
-    public String getImgtitle() {
-        return imagesTitle;
-    }
-
-    public String getImgdesc() {
-        return imagesDescription;
     }
 
 }
