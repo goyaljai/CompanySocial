@@ -1,7 +1,8 @@
 package com.example.chernobyl;
 
+import com.squareup.moshi.Moshi;
+import retrofit2.converter.moshi.MoshiConverterFactory;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClientInstance {
 
@@ -9,10 +10,11 @@ public class RetrofitClientInstance {
     private static final String BASE_URL = "http://13.233.83.239/";
 
     public static Retrofit getRetrofitInstance() {
+        Moshi moshi = new Moshi.Builder().build();
         if (retrofit == null) {
             retrofit = new retrofit2.Retrofit.Builder()
                     .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(MoshiConverterFactory.create(moshi))
                     .build();
         }
         return retrofit;

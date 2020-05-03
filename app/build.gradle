@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+repositories {
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+}
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -41,5 +45,9 @@ dependencies {
     // Glide image library
     implementation 'androidx.navigation:navigation-fragment:2.2.1'
     implementation 'androidx.navigation:navigation-ui:2.2.1'
-    compile 'com.squareup.moshi:moshi:1.5.0'
+    implementation files('libs\\converter-moshi-2.8.1.jar')
+    implementation files('libs\\moshi-1.8.0.jar')
+    implementation "com.squareup.okhttp3:okhttp:3.10.0"
+    implementation "com.squareup.okio:okio:1.16.0"
+    implementation 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'
 }

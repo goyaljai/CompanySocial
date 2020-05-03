@@ -13,22 +13,23 @@ import androidx.collection.LruCache;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.chernobyl.classes.SubCategory;
+import com.squareup.picasso.Picasso;
 
 public class CategoryAdapter extends PagerAdapter {
     private Context ctx;
     private SubCategory mCategory;
     private ImageView mImageView;
     private TextView title, summary;
-    private LruCache<Integer, Bitmap> mLruCache;
+    //private LruCache<Integer, Bitmap> mLruCache;
 
     CategoryAdapter(Context context, SubCategory mCategory) {
         this.ctx = context;
         this.mCategory = mCategory;
     }
 
-    public void setBmpCache(LruCache<Integer, Bitmap> mLruCache) {
-        this.mLruCache = mLruCache;
-    }
+//    public void setBmpCache(LruCache<Integer, Bitmap> mLruCache) {
+//        this.mLruCache = mLruCache;
+//    }
 
     @Override
     public void finishUpdate(@NonNull ViewGroup container) {
@@ -52,7 +53,10 @@ public class CategoryAdapter extends PagerAdapter {
         mImageView = view.findViewById(R.id.image);
         title.setText(mCategory.title[position]);
         summary.setText(mCategory.summary[position]);
-        mImageView.setImageBitmap(mLruCache.get(position));
+        String imageUri = mCategory.image[position];
+        Picasso.with(ctx).load(imageUri).into(mImageView);
+        //mCategory.image[position];
+        //mImageView.setImageBitmap(mLruCache.get(position));
         container.addView(view);
         return view;
         // use glide or lrucache

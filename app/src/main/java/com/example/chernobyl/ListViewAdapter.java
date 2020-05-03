@@ -23,10 +23,10 @@ public class ListViewAdapter extends BaseAdapter {
     private Context mContext;
     //private LruCache<Integer, Bitmap> mLruCache;
     private TextView mCategoryName;
-    private ArrayList<LruCache<Integer, Bitmap>> mLruCacheList;
+    //private ArrayList<LruCache<Integer, Bitmap>> mLruCacheList;
 
-    public ListViewAdapter(Context context, MainCategory mainCategory, ArrayList<LruCache<Integer, Bitmap>> mLruCacheList) {
-      this.mLruCacheList=mLruCacheList;
+    public ListViewAdapter(Context context, MainCategory mainCategory) {
+       //this.mLruCacheList=mLruCacheList;
         mMainCategory = mainCategory;
         mContext = context;
     }
@@ -57,8 +57,8 @@ public class ListViewAdapter extends BaseAdapter {
         mCategoryName.setText(mMainCategory.mCategories.get(position).name);
         CategoryAdapter categoryAdapter = new CategoryAdapter(mContext, mMainCategory.mCategories.get(position));
         ViewPager page = convertView.findViewById(R.id.pager);
-        Log.d("ankit", mLruCacheList.size() + " position  " + position);
-        categoryAdapter.setBmpCache(mLruCacheList.get(position));
+        //Log.d("ankit", mLruCacheList.size() + " position  " + position);
+        //categoryAdapter.setBmpCache(mLruCacheList.get(position));
         page.setAdapter(categoryAdapter);
         return convertView;
     }
