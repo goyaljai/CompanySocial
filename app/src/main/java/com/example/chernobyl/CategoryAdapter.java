@@ -15,16 +15,18 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.example.chernobyl.classes.SubCategory;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 public class CategoryAdapter extends PagerAdapter {
     private Context ctx;
-    private SubCategory mCategory;
+    private ArrayList<SubCategory> mSubCategory;
     private ImageView mImageView;
     private TextView title, summary;
     //private LruCache<Integer, Bitmap> mLruCache;
 
-    CategoryAdapter(Context context, SubCategory mCategory) {
+    CategoryAdapter(Context context, ArrayList<SubCategory> mMainSubCategory) {
         this.ctx = context;
-        this.mCategory = mCategory;
+        this.mSubCategory = mMainSubCategory;
     }
 
 //    public void setBmpCache(LruCache<Integer, Bitmap> mLruCache) {
@@ -51,9 +53,10 @@ public class CategoryAdapter extends PagerAdapter {
         title = view.findViewById(R.id.t1);
         summary = view.findViewById(R.id.t2);
         mImageView = view.findViewById(R.id.image);
-        title.setText(mCategory.title[position]);
-        summary.setText(mCategory.summary[position]);
-        String imageUri = mCategory.image[position];
+        title.setText(mSubCategory.get(position).title);
+        summary.setText(mSubCategory.get(position).summary);
+        String imageUri = mSubCategory.get(position).image;
+        imageUri = "http://13.233.83.239"+imageUri;
         Picasso.with(ctx).load(imageUri).into(mImageView);
         //mCategory.image[position];
         //mImageView.setImageBitmap(mLruCache.get(position));
@@ -74,6 +77,6 @@ public class CategoryAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return mCategory.image.length;
+        return mSubCategory.size();
     }
 }

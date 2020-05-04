@@ -27,6 +27,7 @@ import com.example.chernobyl.classes.MainCategory;
 import com.example.chernobyl.classes.MainCategoryData;
 import com.example.chernobyl.classes.MainSubCategoryData;
 import com.example.chernobyl.classes.SubCategory;
+import com.example.chernobyl.classes.SubCategoryData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -41,7 +42,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
     private ArrayList<LruCache<Integer, Bitmap>> mLruCacheList = new ArrayList<>();
-    private ArrayList<MainCategory> mMainCategoryArrayList = new ArrayList<>();
+
     protected List<List<AppData>> appData;
     protected List<List<MainCategoryData>> mainCategoryData;
     protected List<List<MainSubCategoryData>> mainSubCategoryData;
@@ -49,13 +50,13 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private ArrayList<Integer> id;
     private int tabSize;
     private TabLayout mTabLayout;
-
+    ArrayList<MainSubCategory> mainSubCategoryArrayList = new ArrayList<>();
+    private ArrayList<MainCategory> mainCategoryList;
     private TabPager adapter;
     private ViewPager pager;
     private ActionBar actionBar;
     private TextView textView;
     private ActionBar.LayoutParams layoutParams;
-
 
 
     private void requestDataForApp() {
@@ -69,20 +70,24 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                 if (response.code() == 404) {
                     Intent intent = new Intent(MainActivity.this, ErrorActivity.class);
                     startActivity(intent);
-                }
-
-                if (response.body().size() > 0) {
-                    appData = new ArrayList<List<AppData>>();
-                    List<AppData> jsonArray = response.body();
-                    appData.add(new ArrayList<AppData>(jsonArray));
-
-                    //To Display App Data(for verifying)
-                    displayDataApp(appData);
-
-                    //Function to request MainCategory Data
-                    requestTabsFromAPi();
                 } else {
-                    Toast.makeText(MainActivity.this, "No App Data Received", Toast.LENGTH_LONG).show();
+
+                    if (response.body().size() > 0) {
+                        appData = new ArrayList<List<AppData>>();
+                        List<AppData> jsonArray = response.body();
+                        appData.add(new ArrayList<AppData>(jsonArray));
+
+                        //Sets App Basic Data
+                        setAppData(appData.get(0).get(0).getAppTitle());
+
+                        //To Display App Data(for verifying)
+                        displayDataApp(appData);
+
+                        //Function to request MainCategory Data
+                        requestTabsFromAPi();
+                    } else {
+                        Toast.makeText(MainActivity.this, "No App Data Received", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
 
@@ -93,6 +98,11 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         });
 
     }
+
+    private void setAppData(String appTitle) {
+        ActionBarTitleGravity(appTitle);
+    }
+
     private void requestTabsFromAPi() {
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<List<MainCategoryData>> call = service.requestMainData();
@@ -102,20 +112,21 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                 if (response.code() == 404) {
                     Intent intent = new Intent(MainActivity.this, ErrorActivity.class);
                     startActivity(intent);
-                }
-
-                if (response.body().size() > 0) {
-                    mainCategoryData = new ArrayList<List<MainCategoryData>>();
-                    List<MainCategoryData> jsonArray = response.body();
-                    mainCategoryData.add(new ArrayList<MainCategoryData>(jsonArray));
-                    tabSize = mainCategoryData.get(0).size();
-                    //Displays tab data for verification
-                    displayData(mainCategoryData);
-
-                    //Requests sybcategories Data
-                    requestSubCategoriesFromApi();
                 } else {
-                    Toast.makeText(MainActivity.this, "Empty Tab Received", Toast.LENGTH_LONG).show();
+                    if (response.body().size() > 0) {
+                        mainCategoryData = new ArrayList<List<MainCategoryData>>();
+                        List<MainCategoryData> jsonArray = response.body();
+                        mainCategoryData.add(new ArrayList<MainCategoryData>(jsonArray));
+                        tabSize = mainCategoryData.get(0).size();
+
+                        //Displays tab data for verification
+                        displayData(mainCategoryData);
+
+                        //Requests sybcategories Data
+                        requestSubCategoriesFromApi();
+                    } else {
+                        Toast.makeText(MainActivity.this, "Empty Tab Received", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
 
@@ -125,130 +136,149 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             }
         });
     }
+
+    private int finalI = 0;
+
     private void requestSubCategoriesFromApi() {
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<List<MainSubCategoryData>> call;
         //Loop through all the tabs
+        mainSubCategoryData = new ArrayList<List<MainSubCategoryData>>();
+        finalI = 0;
         for (int i = 0; i < tabSize; i++) {
-
+            Log.d("Ankit", mainCategoryData.get(0).get(i).getId() + " idd");
             call = service.requestMainSubData("json", mainCategoryData.get(0).get(i).getId());
+
             call.enqueue(new Callback<List<MainSubCategoryData>>() {
                 @Override
                 public void onResponse(Call<List<MainSubCategoryData>> call, Response<List<MainSubCategoryData>> response) {
+                    finalI++;
+                    Log.d("JAI ", finalI + "");
                     if (response.code() == 404) {
+                        Log.d("40444", "4044");
                         Intent intent = new Intent(MainActivity.this, ErrorActivity.class);
                         startActivity(intent);
-                    }
-                    Log.d("MyResp", response + "");
-                    if (response.body().size() > 0) {
-                        mainSubCategoryData = new ArrayList<List<MainSubCategoryData>>();
+                    } else {
+
+                        Log.d("Ankit", response + "");
+
+
                         List<MainSubCategoryData> jsonArray = response.body();
+                        Log.d("Ankit", "Adding......" + mainSubCategoryData.size());
+                        Log.d("JAI", response.body().toString());
                         mainSubCategoryData.add(new ArrayList<MainSubCategoryData>(jsonArray));
 
-                        //Function to print data whether it is correct or not
                         displayDataSub(mainSubCategoryData);
-                        // init(mainSubCategoryData);  currently commented as not setting the data to UI
-                    } else {
-                        Toast.makeText(MainActivity.this, "Empty Sub Data Received", Toast.LENGTH_LONG).show();
-                    }
+                        if (mainSubCategoryData.size() == tabSize) {
+                            System.out.println("I came Here " + finalI);
+                            System.out.println(mainSubCategoryData.size() + "163");
+                            init();
+                        }
 
+
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<List<MainSubCategoryData>> call, Throwable t) {
                     Log.d("prob", "problem" + t.toString());
-
+                    finalI++;
+                    Log.d("Ankit", finalI + "f");
                     Toast.makeText(MainActivity.this, "Some error occured", Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
+
     }
 
 
+    private void init() {
+        //int size = mainSubCategoryData.size();
+        System.out.println(tabSize + "hsizeeeee");
+        System.out.println(mainSubCategoryData.size() + "mainSubcategory Data");
+        System.out.println(mainSubCategoryData.size() + "mainSubcategory Data");
+        mTabLayout = findViewById(R.id.tabLayout);
+
+        for (int k = 0; k < tabSize; k++) {
+            mTabLayout.addTab(mTabLayout.newTab().setText(mainCategoryData.get(0).get(k).getTitle()));
+        }
+
+        for (int t = 0; t < tabSize; t++) {
+
+            mainSubCategoryArrayList = new ArrayList<>();
+            //List<MainCategoryData> temp = mainCategoryData.get(0);
+            for (int i = 0; i < mainSubCategoryData.get(t).size(); i++) {
+                setCategoryData(mainSubCategoryData.get(t).get(i));
+            }
+            //ArrayList<MainCategory> tempMainCategoryList=new ArrayList<MainCategory>(appData.get(0).get(0).getAppTitle(), mainSubCategoryArrayList);
+            mainCategoryList.add(new MainCategory(appData.get(0).get(0).getAppTitle(), mainSubCategoryArrayList));
+        }
+        System.out.println("tabselecteddd  " + mTabLayout.getSelectedTabPosition());
+        pager = findViewById(R.id.main_pager);
+        //adapter = new TabPager(getSupportFragmentManager(), mTabLayout.getTabCount(), mLruCacheList, this, mMainCategoryArrayList);
+        adapter = new TabPager(getSupportFragmentManager(), mTabLayout.getTabCount(), this, mainCategoryList);
+        pager.setAdapter(adapter);
+
+        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
+        mTabLayout.addOnTabSelectedListener(this);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment f = new BlankFragment();
+                Fragment fragment = new CategoryFragment(MainActivity.this, mainCategoryList.get(mTabLayout.getSelectedTabPosition()));
+                switch (item.getItemId()) {
+                    case R.id.navigation_home: {
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.sample_frag, fragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                        return true;
+                    }
+                    case R.id.navigation_sms: {
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.sample_frag, f);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                        return true;
+                    }
+                    case R.id.navigation_notifications: {
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.sample_frag, fragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
 
-//    private void init(List<List<MainCategoryData>> mainCategoryData) {
-//
-//        //String[] mName1 = {"Pic 1", "Pic 2", "Pic 3", "Pic 4"};
-//        //String[] mName2 = {"Pic 5", "Pic 6", "Pic 7", "Pic 8"};
-//        //String[] mSummary1 = {"This is  1", "This is  2", "This is  3", "This is  4"};
-//        //String[] mSummary2 = {"This is  5", "This is  6", "This is  7", "This is  8"};
-//        //int[] imgArray1 = {R.drawable.my9, R.drawable.my9, R.drawable.my9, R.drawable.my9};
-//        //int[] imgArray2 = {R.drawable.my1, R.drawable.my1, R.drawable.my1, R.drawable.my1};
-//        String[] mName1 = new String[mainCategoryData.get(0).size()];
-//        String[] mName2 = new String[mainCategoryData.get(0).size()];
-//        String[] imgArray1 = new String[mainCategoryData.get(0).size()];
-//        String[] imgArray2 = new String[mainCategoryData.get(0).size()];
-//        String[] mSummary1 = new String[mainCategoryData.get(0).size()];
-//        String[] mSummary2 = new String[mainCategoryData.get(0).size()];
-//
-//        List<MainCategoryData> temp = mainCategoryData.get(0);
-//        for (int i = 0; i < mainCategoryData.get(0).size(); i++) {
-//            mName1[i] = temp.get(i).getTitle();
-//            mName2[i] = mName1[i];
-//            imgArray1[i] = temp.get(i).getUrl();
-//            imgArray2[i] = imgArray1[i];
-//            mSummary1[i] = temp.get(i).getImgdesc();
-//            mSummary2[i] = mSummary1[i];
-//        }
-//        mTabLayout = findViewById(R.id.tabLayout);
-//        mTabLayout.addTab(mTabLayout.newTab().setText("Tab1"));
-//        mTabLayout.addTab(mTabLayout.newTab().setText("Tab2"));
-//        mTabLayout.addTab(mTabLayout.newTab().setText("Tab3"));
-//        int size = mTabLayout.getTabCount();
-//        for (int t = 0; t < size; t++) {
-//
-//
-////            generateLruCache(imgArray1);
-////            generateLruCache(imgArray2);
-//            ArrayList<SubCategory> subCategories = new ArrayList<>();
-//            subCategories.add(new SubCategory("Category 1", imgArray1, mSummary1, mName1));
-//            subCategories.add(new SubCategory("Category 2", imgArray2, mSummary2, mName2));
-//            mMainCategoryArrayList.add(new MainCategory("World", subCategories));
-//        }
-//
-//        //init(mTabLayout.getTabCount(), mainCategoryData);
-//        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-//        pager = findViewById(R.id.main_pager);
-//        //adapter = new TabPager(getSupportFragmentManager(), mTabLayout.getTabCount(), mLruCacheList, this, mMainCategoryArrayList);
-//        adapter = new TabPager(getSupportFragmentManager(), mTabLayout.getTabCount(), this, mMainCategoryArrayList);
-//        pager.setAdapter(adapter);
-//        mTabLayout.addOnTabSelectedListener(this);
-//        bottomNavigationView = findViewById(R.id.bottom_navigation);
-//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                Fragment f = new BlankFragment();
-//                Fragment fragment = new CategoryFragment(MainActivity.this, mMainCategoryArrayList.get(0));
-//                switch (item.getItemId()) {
-//                    case R.id.navigation_home: {
-//                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//                        transaction.replace(R.id.sample_frag, fragment);
-//                        transaction.addToBackStack(null);
-//                        transaction.commit();
-//                        return true;
-//                    }
-//                    case R.id.navigation_sms: {
-//                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//                        transaction.replace(R.id.sample_frag, f);
-//                        transaction.addToBackStack(null);
-//                        transaction.commit();
-//                        return true;
-//                    }
-//                    case R.id.navigation_notifications: {
-//                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//                        transaction.replace(R.id.sample_frag, fragment);
-//                        transaction.addToBackStack(null);
-//                        transaction.commit();
-//                        return true;
-//                    }
-//                }
-//                return false;
-//            }
-//        });
-//    }
+
+    }
+
+    private void setCategoryData(MainSubCategoryData mainsubCategoryData) {
+
+        ArrayList<SubCategory> subCategories = new ArrayList<>();
+        String mCategoryName = mainsubCategoryData.getDescription();
+        String[] mName = new String[mainsubCategoryData.getSubcategories().size()];
+        String[] mSummary = new String[mainsubCategoryData.getSubcategories().size()];
+        String[] imgArray = new String[mainsubCategoryData.getSubcategories().size()];
+
+        for (int i = 0; i < mainsubCategoryData.getSubcategories().size(); i++) {
+            SubCategoryData subCategoryData = mainsubCategoryData.getSubcategories().get(i);
+            mName[i] = subCategoryData.getImgtitle();
+            mSummary[i] = subCategoryData.getImgdesc();
+            imgArray[i] = subCategoryData.getUrl();
+            subCategories.add(new SubCategory(mCategoryName, imgArray[i], mSummary[i], mName[i]));
+        }
+
+        mainSubCategoryArrayList.add(new MainSubCategory(mainsubCategoryData.getId(), mainsubCategoryData.getDescription(), subCategories));
+
+    }
 
 
 //    private void generateLruCache(int[] imgArray) {
@@ -270,18 +300,16 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 //    }
 
 
-
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mainCategoryList = new ArrayList<>();
         //Function to Request App Data
         requestDataForApp();
 
-        ActionBarTitleGravity();
+
     }
 
 
@@ -290,17 +318,18 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     }
 
     private void displayData(List<List<MainCategoryData>> mainCategoryData) {
+        System.out.println("My sizzeee" + tabSize);
         for (int i = 0; i < mainCategoryData.get(0).size(); i++) {
             System.out.println("HIIII" + mainCategoryData.get(0).size() + "  " + mainCategoryData.get(0).get(i).getTitle());
         }
     }
 
     private void displayDataSub(List<List<MainSubCategoryData>> mainSubCategoryData) {
-        System.out.println(mainSubCategoryData.get(0).get(0).getSubcategories().get(0).getImgdesc() + "Descc" + "    " + mainSubCategoryData.get(0).get(0).getSubcategories().size());
+        System.out.println(mainSubCategoryData.size() + " see it increasing " + mainSubCategoryData.get(0).get(0).getSubcategories().get(0).getImgdesc() + "Descc" + "    " + mainSubCategoryData.get(0).get(0).getSubcategories().size());
     }
 
-    private void ActionBarTitleGravity() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    private void ActionBarTitleGravity(String appTitle) {
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         actionBar = getSupportActionBar();
         textView = new TextView(getApplicationContext());
 
@@ -308,14 +337,14 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         textView.setLayoutParams(layoutParams);
-        textView.setText("Chernobyl");
+        textView.setText(appTitle);
         textView.setTextColor(Color.WHITE);
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(22);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         // actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setCustomView(textView);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        //actionBar.setDisplayHomeAsUpEnabled(true);
 
     }
 

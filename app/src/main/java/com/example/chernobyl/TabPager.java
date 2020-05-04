@@ -16,15 +16,15 @@ public class TabPager extends FragmentStatePagerAdapter {
     private int tabCount;
    //ArrayList<LruCache<Integer, Bitmap>> mLruCacheList;
     Context mContext;
-    ArrayList<MainCategory> mCategoryList;
+    ArrayList<MainCategory> mMainCategory;
     ListViewAdapter listViewAdapter;
 
 
 
-    public TabPager(FragmentManager fm, int tabCount, Context mContext, ArrayList<MainCategory> categoryList) {
+    public TabPager(FragmentManager fm, int tabCount, Context mContext, ArrayList<MainCategory> mMainCategory) {
         super(fm);
         this.tabCount = tabCount;
-        this.mCategoryList = categoryList;
+        this.mMainCategory = mMainCategory;
         this.mContext = mContext;
     }
 
@@ -32,7 +32,7 @@ public class TabPager extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
 
         // currrently we are inflating same fragment at every position
-        return new CategoryFragment(mContext,mCategoryList.get(position));
+        return new CategoryFragment(mContext,mMainCategory.get(position));
 
     }
 
