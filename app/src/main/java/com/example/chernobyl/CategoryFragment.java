@@ -29,7 +29,7 @@ public class CategoryFragment extends Fragment {
     //private androidx.collection.LruCache<Integer, Bitmap> mLruCache;
     //private ArrayList<LruCache<Integer, Bitmap>> mLruCacheList;
     private ListViewAdapter listViewAdapter;
-    private MainCategory mCategory;
+    private MainCategory mainCategory;
     private ViewPager page;
     private Context mContext;
     private ViewPager slider;
@@ -46,9 +46,9 @@ public class CategoryFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public CategoryFragment(Context mContext, MainCategory mCategory) {
+    public CategoryFragment(Context mContext, MainCategory mainCategory) {
        // this.mLruCacheList = mLruCacheList;
-        this.mCategory = mCategory;
+        this.mainCategory = mainCategory;
         this.mContext = mContext;
     }
 
@@ -68,7 +68,7 @@ public class CategoryFragment extends Fragment {
         imageModelArrayList = new ArrayList<>();
         imageModelArrayList = populateList();
         init();
-        listViewAdapter = new ListViewAdapter(mContext, mCategory);
+        listViewAdapter = new ListViewAdapter(mContext, mainCategory);
         ListView listView = view.findViewById(R.id.listView);
 
         listView.setAdapter(listViewAdapter);

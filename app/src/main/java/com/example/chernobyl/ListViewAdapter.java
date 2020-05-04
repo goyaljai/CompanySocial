@@ -26,7 +26,7 @@ public class ListViewAdapter extends BaseAdapter {
     //private ArrayList<LruCache<Integer, Bitmap>> mLruCacheList;
 
     public ListViewAdapter(Context context, MainCategory mainCategory) {
-       //this.mLruCacheList=mLruCacheList;
+        //this.mLruCacheList=mLruCacheList;
         mMainCategory = mainCategory;
         mContext = context;
     }
@@ -34,12 +34,12 @@ public class ListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mMainCategory.mCategories.size();
+        return mMainCategory.mMainSubCategories.size();
     }
 
     @Override
-    public SubCategory getItem(int position) {
-        return mMainCategory.mCategories.get(position);
+    public MainSubCategory getItem(int position) {
+        return mMainCategory.mMainSubCategories.get(position);
     }
 
     @Override
@@ -54,8 +54,8 @@ public class ListViewAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.pager, null, false);
         }
         mCategoryName = convertView.findViewById(R.id.category_name);
-        mCategoryName.setText(mMainCategory.mCategories.get(position).name);
-        CategoryAdapter categoryAdapter = new CategoryAdapter(mContext, mMainCategory.mCategories.get(position));
+        mCategoryName.setText(mMainCategory.mMainSubCategories.get(position).description);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(mContext, mMainCategory.mMainSubCategories.get(position).subCategoryArrayList);
         ViewPager page = convertView.findViewById(R.id.pager);
         //Log.d("ankit", mLruCacheList.size() + " position  " + position);
         //categoryAdapter.setBmpCache(mLruCacheList.get(position));

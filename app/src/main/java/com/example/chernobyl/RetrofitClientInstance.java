@@ -7,7 +7,7 @@ import retrofit2.Retrofit;
 public class RetrofitClientInstance {
 
     private static Retrofit retrofit;
-    private static final String BASE_URL = "http://13.233.83.239/";
+    private static final String BASE_URL = "http://13.233.83.239/api/";
 
     public static Retrofit getRetrofitInstance() {
         Moshi moshi = new Moshi.Builder().build();
