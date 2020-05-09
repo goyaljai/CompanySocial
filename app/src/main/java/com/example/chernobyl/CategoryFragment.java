@@ -26,8 +26,6 @@ import me.relex.circleindicator.CircleIndicator;
 
 
 public class CategoryFragment extends Fragment {
-    //private androidx.collection.LruCache<Integer, Bitmap> mLruCache;
-    //private ArrayList<LruCache<Integer, Bitmap>> mLruCacheList;
     private ListViewAdapter listViewAdapter;
     private MainCategory mainCategory;
     private ViewPager page;
@@ -47,9 +45,10 @@ public class CategoryFragment extends Fragment {
     }
 
     public CategoryFragment(Context mContext, MainCategory mainCategory) {
-       // this.mLruCacheList = mLruCacheList;
+
         this.mainCategory = mainCategory;
         this.mContext = mContext;
+
     }
 
     @Override
@@ -70,7 +69,6 @@ public class CategoryFragment extends Fragment {
         init();
         listViewAdapter = new ListViewAdapter(mContext, mainCategory);
         ListView listView = view.findViewById(R.id.listView);
-
         listView.setAdapter(listViewAdapter);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

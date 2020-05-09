@@ -22,16 +22,11 @@ public class CategoryAdapter extends PagerAdapter {
     private ArrayList<SubCategory> mSubCategory;
     private ImageView mImageView;
     private TextView title, summary;
-    //private LruCache<Integer, Bitmap> mLruCache;
 
     CategoryAdapter(Context context, ArrayList<SubCategory> mMainSubCategory) {
         this.ctx = context;
         this.mSubCategory = mMainSubCategory;
     }
-
-//    public void setBmpCache(LruCache<Integer, Bitmap> mLruCache) {
-//        this.mLruCache = mLruCache;
-//    }
 
     @Override
     public void finishUpdate(@NonNull ViewGroup container) {
@@ -58,11 +53,8 @@ public class CategoryAdapter extends PagerAdapter {
         String imageUri = mSubCategory.get(position).image;
         imageUri = "http://13.233.83.239"+imageUri;
         Picasso.with(ctx).load(imageUri).into(mImageView);
-        //mCategory.image[position];
-        //mImageView.setImageBitmap(mLruCache.get(position));
         container.addView(view);
         return view;
-        // use glide or lrucache
     }
 
     @Override

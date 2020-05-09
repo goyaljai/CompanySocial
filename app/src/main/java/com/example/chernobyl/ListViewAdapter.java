@@ -1,29 +1,18 @@
 package com.example.chernobyl;
-
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import androidx.collection.LruCache;
 import androidx.viewpager.widget.ViewPager;
-
 import com.example.chernobyl.classes.MainCategory;
-import com.example.chernobyl.classes.SubCategory;
-
-import java.util.ArrayList;
 
 public class ListViewAdapter extends BaseAdapter {
     private MainCategory mMainCategory;
     private Context mContext;
-    //private LruCache<Integer, Bitmap> mLruCache;
     private TextView mCategoryName;
-    //private ArrayList<LruCache<Integer, Bitmap>> mLruCacheList;
 
     public ListViewAdapter(Context context, MainCategory mainCategory) {
         //this.mLruCacheList=mLruCacheList;
@@ -34,12 +23,12 @@ public class ListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mMainCategory.mMainSubCategories.size();
+        return mMainCategory.getMainUISubCategories().size();
     }
 
     @Override
     public MainSubCategory getItem(int position) {
-        return mMainCategory.mMainSubCategories.get(position);
+        return mMainCategory.getMainUISubCategories().get(position);
     }
 
     @Override
@@ -54,11 +43,9 @@ public class ListViewAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.pager, null, false);
         }
         mCategoryName = convertView.findViewById(R.id.category_name);
-        mCategoryName.setText(mMainCategory.mMainSubCategories.get(position).description);
-        CategoryAdapter categoryAdapter = new CategoryAdapter(mContext, mMainCategory.mMainSubCategories.get(position).subCategoryArrayList);
+        mCategoryName.setText(mMainCategory.getMainUISubCategories().get(position).description);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(mContext, mMainCategory.getMainUISubCategories().get(position).subCategoryArrayList);
         ViewPager page = convertView.findViewById(R.id.pager);
-        //Log.d("ankit", mLruCacheList.size() + " position  " + position);
-        //categoryAdapter.setBmpCache(mLruCacheList.get(position));
         page.setAdapter(categoryAdapter);
         return convertView;
     }

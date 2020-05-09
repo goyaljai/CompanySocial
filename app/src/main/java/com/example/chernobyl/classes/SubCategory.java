@@ -1,7 +1,6 @@
 package com.example.chernobyl.classes;
 
 public class SubCategory {
-    // array of items
 
     public String name;
     public String image;
