@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.example.chernobyl.classes.ImageModel;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -19,17 +19,16 @@ import java.util.ArrayList;
 public class SlidingImage_Adapter extends PagerAdapter {
 
 
-    private ArrayList<ImageModel> imageModelArrayList;
+    private ArrayList<String> randomImageList;
     private LayoutInflater inflater;
     private Context context;
 
 
-    public SlidingImage_Adapter(Context context, ArrayList<ImageModel> imageModelArrayList) {
+    public SlidingImage_Adapter(Context context, ArrayList<String> imageModelArrayList) {
         this.context = context;
-        this.imageModelArrayList = imageModelArrayList;
+        this.randomImageList = imageModelArrayList;
         inflater = LayoutInflater.from(context);
     }
-    
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
@@ -38,7 +37,7 @@ public class SlidingImage_Adapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return imageModelArrayList.size();
+        return randomImageList.size();
     }
 
     @Override
@@ -48,14 +47,10 @@ public class SlidingImage_Adapter extends PagerAdapter {
         View imageLayout = inflater.inflate(R.layout.slidingimages_layout, null);
 
         assert imageLayout != null;
-        final ImageView imageView = (ImageView) imageLayout
-                .findViewById(R.id.slide_image);
-
-
-        imageView.setImageResource(imageModelArrayList.get(position).getImage_drawable());
-
+        final ImageView imageView = (ImageView) imageLayout.findViewById(R.id.slide_image);
+        String imageUri = "http://13.233.83.239" + randomImageList.get(position);
+        Picasso.with(context).load(imageUri).fit().into(imageView);
         view.addView(imageLayout);
-
         return imageLayout;
     }
 

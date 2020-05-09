@@ -54,4 +54,5 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:3.10.0"
     implementation "com.squareup.okio:okio:1.16.0"
     implementation 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
 }

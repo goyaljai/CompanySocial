@@ -1,39 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.chernobyl.MySwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/sample_frag"
-    >
+    android:layout_height="0dp">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/slider"
+    <LinearLayout
+        android:id="@+id/sample_frag"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:longClickable="true"
-        android:paddingTop="1dip"
-        android:paddingBottom="1dip">
-
-    </androidx.viewpager.widget.ViewPager>
-
-    <me.relex.circleindicator.CircleIndicator
-        android:id="@+id/indicator"
-        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:gravity="bottom"
-        android:padding="10dip" />
+        android:orientation="vertical">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/refresh"
-        >
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/slider"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:longClickable="true"
+            android:paddingTop="1dip"
+            android:paddingBottom="1dip">
+
+        </androidx.viewpager.widget.ViewPager>
+
+        <me.relex.circleindicator.CircleIndicator
+            android:id="@+id/indicator"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="bottom"
+            android:padding="10dip" />
+
+
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-</LinearLayout>
+
+    </LinearLayout>
+</com.example.chernobyl.MySwipeRefreshLayout>

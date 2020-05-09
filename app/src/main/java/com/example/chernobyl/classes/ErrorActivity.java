@@ -22,8 +22,12 @@ private Button errorbtn;
         errorbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(ErrorActivity.this, MainActivity.class);
-                startActivity(i);
+                Intent intent = new Intent(ErrorActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finishAffinity();
+                finish();
             }
         });
     }

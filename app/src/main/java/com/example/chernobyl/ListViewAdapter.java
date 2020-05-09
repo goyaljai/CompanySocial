@@ -1,12 +1,17 @@
 package com.example.chernobyl;
+
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
 import com.example.chernobyl.classes.MainCategory;
 
 public class ListViewAdapter extends BaseAdapter {
@@ -47,6 +52,23 @@ public class ListViewAdapter extends BaseAdapter {
         CategoryAdapter categoryAdapter = new CategoryAdapter(mContext, mMainCategory.getMainUISubCategories().get(position).subCategoryArrayList);
         ViewPager page = convertView.findViewById(R.id.pager);
         page.setAdapter(categoryAdapter);
+
+        //To remove flickering
+        page.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                //page.requestDisallowInterceptTouchEvent(true); // not sure if this is required
+                //PagerAdapter adapter = page.getAdapter();
+                // consume the move event if we have only one page full - removes flickering artifact
+                // getNumberOfPagesOnScreen() is a mehtod we have to get the number of pages we are going to display. ymmv
+                if (categoryAdapter.getCount() <= 2 && event.getAction() == MotionEvent.ACTION_MOVE) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
         return convertView;
     }
 }
