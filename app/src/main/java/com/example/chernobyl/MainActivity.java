@@ -39,6 +39,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,7 +48,6 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
 
     private ArrayList<LruCache<Integer, Bitmap>> mLruCacheList = new ArrayList<>();
-
     protected List<List<AppData>> appData;
     protected List<List<MainCategoryData>> mainCategoryData;
     protected List<MainSubCategoryData> mainSubCategoryData;
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private LinkedHashMap<Integer, Integer> tabIdMap;
     private LinkedHashMap<Integer, String> tabNameMap;
     private LinkedHashMap<Integer, List<MainSubCategoryData>> helper;
+    private ArrayList<String> subRandomImageList;
 
     private void requestDataForApp() {
 
@@ -85,10 +86,16 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                         List<AppData> jsonArray = response.body();
                         appData.add(new ArrayList<AppData>(jsonArray));
 
-                        setAppData(appData.get(0).get(0).getAppTitle());
+                        setAppData(appData.get(0).get(0).getTitle());
                         //Function to request MainCategory Data
                         requestTabsFromAPi();
                     } else {
+                        Intent intent = new Intent(MainActivity.this, ErrorActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finishAffinity();
+                        finish();
                         Toast.makeText(MainActivity.this, "No App Data Received", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -96,6 +103,12 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
             @Override
             public void onFailure(Call<List<AppData>> call, Throwable t) {
+                Intent intent = new Intent(MainActivity.this, ErrorActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finishAffinity();
+                finish();
                 Toast.makeText(MainActivity.this, "Error in fetching", Toast.LENGTH_LONG).show();
             }
         });
@@ -114,7 +127,11 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             public void onResponse(Call<List<MainCategoryData>> call, Response<List<MainCategoryData>> response) {
                 if (response.code() == 404) {
                     Intent intent = new Intent(MainActivity.this, ErrorActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                            Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
+                    finishAffinity();
+                    finish();
                 } else {
                     if (response.body().size() > 0) {
                         mainCategoryData = new ArrayList<List<MainCategoryData>>();
@@ -131,6 +148,12 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                             e.printStackTrace();
                         }
                     } else {
+                        Intent intent = new Intent(MainActivity.this, ErrorActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                        finishAffinity();
+                        finish();
                         Toast.makeText(MainActivity.this, "Empty Tab Received", Toast.LENGTH_LONG).show();
                     }
                 }
@@ -138,6 +161,12 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
             @Override
             public void onFailure(Call<List<MainCategoryData>> call, Throwable t) {
+                Intent intent = new Intent(MainActivity.this, ErrorActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finishAffinity();
+                finish();
                 Toast.makeText(MainActivity.this, "Error in fetching", Toast.LENGTH_LONG).show();
             }
         });
@@ -190,7 +219,11 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                     if (response.code() == 404) {
                         Log.d("40444", "4044");
                         Intent intent = new Intent(MainActivity.this, ErrorActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                                Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
+                        finishAffinity();
+                        finish();
                     } else {
                         res = response.body();
                         Log.d("Resss", res + " id " + id);
@@ -209,6 +242,12 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                 @Override
                 public void onFailure(Call<List<MainSubCategoryData>> call, Throwable t) {
                     Log.d("prob", "problem" + t.toString());
+                    Intent intent = new Intent(MainActivity.this, ErrorActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                            Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finishAffinity();
+                    finish();
                     Toast.makeText(MainActivity.this, "Some error occured", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -240,15 +279,18 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
         for (int t = 0; t < tabSize; t++) {
 
+            subRandomImageList = new ArrayList<>();
             mainSubCategoryArrayList = new ArrayList<>();
+
             Log.d("Finally1", mainCategoryList.get(t).getmMainSubCategories().size() + " size(260)");
 
             for (int i = 0; i < mainCategoryList.get(t).getmMainSubCategories().size(); i++) {
                 setCategoryData(mainCategoryList.get(t).getmMainSubCategories().get(i));
             }
 
-            mainCategoryUIList.add(new MainCategory(mainSubCategoryArrayList, tabIdMap.get(t), tabNameMap.get(tabIdMap.get(t))));
-            Log.d("Finally1", mainCategoryUIList.size() + "sizeMain266");
+            mainCategoryUIList.add(new MainCategory(mainSubCategoryArrayList, tabIdMap.get(t), tabNameMap.get(tabIdMap.get(t)), subRandomImageList));
+
+            // Log.d("Finally1", mainCategoryUIList.size() + "sizeMain266  sub" + subRandomImageList.size() + "  " + subRandomImageList.get(0));
         }
         System.out.println("tabselecteddd  " + mTabLayout.getSelectedTabPosition());
         pager = findViewById(R.id.main_pager);
@@ -300,13 +342,17 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         String[] mName = new String[mainsubCategoryData.getSubcategories().size()];
         String[] mSummary = new String[mainsubCategoryData.getSubcategories().size()];
         String[] imgArray = new String[mainsubCategoryData.getSubcategories().size()];
-
+        int randCount = 0;
         for (int i = 0; i < mainsubCategoryData.getSubcategories().size(); i++) {
             SubCategoryData subCategoryData = mainsubCategoryData.getSubcategories().get(i);
             mName[i] = subCategoryData.getImgtitle();
             mSummary[i] = subCategoryData.getImgdesc();
             imgArray[i] = subCategoryData.getUrl();
             subCategories.add(new SubCategory(mCategoryName, imgArray[i], mSummary[i], mName[i]));
+            if (randCount < 2) {
+                subRandomImageList.add(imgArray[i]);
+                randCount++;
+            }
         }
         Log.d("Finally1", subCategories.size() + "sizesub326");
         mainSubCategoryArrayList.add(new MainSubCategory(mainsubCategoryData.getId(), mainsubCategoryData.getDescription(), subCategories));

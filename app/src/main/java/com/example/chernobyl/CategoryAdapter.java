@@ -52,7 +52,8 @@ public class CategoryAdapter extends PagerAdapter {
         summary.setText(mSubCategory.get(position).summary);
         String imageUri = mSubCategory.get(position).image;
         imageUri = "http://13.233.83.239"+imageUri;
-        Picasso.with(ctx).load(imageUri).into(mImageView);
+        Picasso.with(ctx).load(imageUri).fit()
+                .into(mImageView);
         container.addView(view);
         return view;
     }

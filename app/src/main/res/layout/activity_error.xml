@@ -11,7 +11,8 @@
         android:id="@+id/error_page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Error 404. Please click on the home button to try again"
+        android:gravity="center"
+        android:text="Error 404. Please click below to try again"
         android:textColor="#FFFFFF"
         android:textSize="30sp" />
 
