@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+android:padding="12dp"
+    android:paddingTop="-12dp"
+    android:paddingBottom="-12dp"
+    android:layout_marginBottom="12dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -11,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:gravity="left"
-        android:text="hello whats up"
+        android:fontFamily="@font/amazon"
         android:textColor="#DDE0F5"
         android:textFontWeight="700"
         android:textSize="15dp"
@@ -20,8 +23,6 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:longClickable="true"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"/>
+        android:layout_height="240dp"
+        android:longClickable="true" />
 </LinearLayout>

@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -300,36 +302,17 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         mTabLayout.addOnTabSelectedListener(this);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment f = new BlankFragment();
-                Fragment fragment = new CategoryFragment(MainActivity.this, mainCategoryUIList.get(mTabLayout.getSelectedTabPosition()));
-                switch (item.getItemId()) {
-                    case R.id.navigation_home: {
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.sample_frag, fragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
-                        return true;
-                    }
-                    case R.id.navigation_sms: {
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.sample_frag, f);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
-                        return true;
-                    }
-                    case R.id.navigation_notifications: {
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.sample_frag, fragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
-                        return true;
-                    }
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.navigation_sms:
+                case R.id.navigation_notifications: {
+                    Uri uri = Uri.parse("https://www.instagram.com/everything_abt_clothes/"); // missing 'http://' will cause crashed
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(intent);
+                    return true;
                 }
-                return false;
             }
+            return false;
         });
 
 
@@ -386,6 +369,11 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         textView.setTextSize(22);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setCustomView(textView);
+        textView.setOnClickListener(v -> {
+            Uri uri = Uri.parse("https://www.instagram.com/everything_abt_clothes/"); // missing 'http://' will cause crashed
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        });
 
     }
 

@@ -2,6 +2,7 @@ package com.example.chernobyl;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.chernobyl.classes.SubCategory;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 
@@ -50,10 +52,32 @@ public class CategoryAdapter extends PagerAdapter {
         mImageView = view.findViewById(R.id.image);
         title.setText(mSubCategory.get(position).title);
         summary.setText(mSubCategory.get(position).summary);
+        Transformation transformation = new Transformation() {
+
+            @Override
+            public Bitmap transform(Bitmap source) {
+                int targetWidth = mImageView.getWidth();
+                Log.d("GOYSLL", "" + targetWidth);
+                if (targetWidth == 0) return source;
+                double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
+                Log.d("GOYSLL", "" + aspectRatio);
+                int targetHeight = (int) (targetWidth * aspectRatio);
+                Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
+                if (result != source) {
+                    // Same bitmap is returned if sizes are the same
+                    source.recycle();
+                }
+                return result;
+            }
+            @Override
+            public String key() {
+                return "transformation" + " desiredWidth";
+            }
+        };
+
         String imageUri = mSubCategory.get(position).image;
         imageUri = "http://13.233.83.239"+imageUri;
-        Picasso.with(ctx).load(imageUri).fit()
-                .into(mImageView);
+        Picasso.with(ctx).load(imageUri).transform(transformation).into(mImageView);
         container.addView(view);
         return view;
     }

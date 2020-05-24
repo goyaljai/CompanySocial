@@ -1,7 +1,9 @@
 package com.example.chernobyl;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 
@@ -40,16 +43,45 @@ public class SlidingImage_Adapter extends PagerAdapter {
         return randomImageList.size();
     }
 
+
+
     @Override
     public Object instantiateItem(ViewGroup view, int position) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View imageLayout = inflater.inflate(R.layout.slidingimages_layout, null);
 
+
         assert imageLayout != null;
+
         final ImageView imageView = (ImageView) imageLayout.findViewById(R.id.slide_image);
         String imageUri = "http://13.233.83.239" + randomImageList.get(position);
-        Picasso.with(context).load(imageUri).fit().into(imageView);
+
+        Transformation transformation = new Transformation() {
+
+            @Override
+            public Bitmap transform(Bitmap source) {
+                int targetWidth = imageLayout.getWidth();
+                Log.d("GOYSLL",""+targetWidth);
+                if(targetWidth==0) return source;
+                double aspectRatio = (double) source.getHeight() / (double) source.getWidth();
+                Log.d("GOYSLL",""+aspectRatio);
+                int targetHeight = (int) (targetWidth * aspectRatio);
+                Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
+                if (result != source) {
+                    // Same bitmap is returned if sizes are the same
+                    source.recycle();
+                }
+                return result;
+            }
+
+            @Override
+            public String key() {
+                return "transformation" + " desiredWidth";
+            }
+        };
+
+        Picasso.with(context).load(imageUri).transform(transformation).into(imageView);
         view.addView(imageLayout);
         return imageLayout;
     }

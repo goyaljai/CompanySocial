@@ -3,26 +3,28 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_marginLeft="5dp"
+        android:layout_height="160dp"
+        android:layout_margin="5dp"
         android:clickable="true"
         android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        card_view:cardCornerRadius="15dp"
-        card_view:cardElevation="4dp">
+        android:foreground="?attr/selectableItemBackground"
+        card_view:cardCornerRadius="5dp"
+        card_view:cardElevation="5dp">
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:contentDescription="@string/app_name"
-            android:scaleType="centerCrop"
-            android:src="@drawable/my3">
+            android:scaleType="fitXY"
+            card_view:srcCompat="@drawable/my3">
 
         </ImageView>
     </androidx.cardview.widget.CardView>
@@ -31,6 +33,7 @@
         android:id="@+id/t1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/amazon"
         android:gravity="start"
         android:paddingLeft="15dp"
         android:textColor="#DDE0F5"

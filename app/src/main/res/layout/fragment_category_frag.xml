@@ -14,7 +14,7 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/slider"
             android:layout_width="match_parent"
-            android:layout_height="268dp"
+            android:layout_height="200dp"
             android:longClickable="true"
             android:paddingTop="1dip"
             android:paddingBottom="1dip">

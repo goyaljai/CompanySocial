@@ -16,7 +16,9 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"></com.google.android.material.tabs.TabLayout>
+        app:tabTextAppearance="@style/tab_text"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        />
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
@@ -27,6 +29,7 @@
         <com.example.chernobyl.NonSwippableViewPager
             android:id="@+id/main_pager"
             android:layout_width="match_parent"
+            android:layout_marginBottom="10dp"
             android:layout_height="fill_parent" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
