@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/amazon"
                 android:layout_marginLeft="8dp"
-                android:text="Fill Details to Pay Now or Pay Later"
+                android:text="Fill Details to Buy this"
                 android:textColor="@color/white"/>
             <EditText
                 android:id="@+id/name"
@@ -116,19 +116,6 @@
             android:textSize="25sp"
             android:foreground="?attr/selectableItemBackground"
             android:layout_marginBottom="12dp"
-            android:gravity="center"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="#144D87"
-            android:text="Pay Later"
-            android:id="@+id/buy_later"
-            android:foreground="?attr/selectableItemBackground"
-            android:fontFamily="@font/amazon"
-            android:textColor="@color/white"
-            android:textStyle="bold"
-            android:textSize="25sp"
             android:gravity="center"/>
 
     </LinearLayout>

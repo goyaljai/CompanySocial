@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.chernobyl.classes.SubCategory;
 import com.shreyaspatil.EasyUpiPayment.EasyUpiPayment;
@@ -55,6 +57,11 @@ public class Detail_Activity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_detail);
+
+        EditText name,address,number;
+        name = findViewById(R.id.name);
+        address = findViewById(R.id.address);
+        number = findViewById(R.id.phone);
 
         PaymentStatusListener paymentListener = new PaymentStatusListener() {
             @Override
@@ -123,6 +130,11 @@ public class Detail_Activity extends AppCompatActivity {
 
         SubCategory subCategory = (SubCategory) getIntent().getSerializableExtra("data");
 
+        Log.d("BANANANAAAMA",TransactionId.substring(TransactionId.length() - 12));
+        Log.d("BANANANAAAMA",subCategory.summary);
+        Log.d("BANANANAAAMA",subCategory.title+".00");
+        //Log.d("BANANANAAAMA",TransactionId.substring(TransactionId.length() - 12));
+
         buyNowButton.setOnClickListener(v -> {
             EasyUpiPayment easyUpiPayment = new EasyUpiPayment.Builder()
                     .with(context)
@@ -130,14 +142,21 @@ public class Detail_Activity extends AppCompatActivity {
                     .setPayeeName("Everything About Clothes : Jaya Gupta")
                     .setTransactionId(TransactionId.substring(TransactionId.length() - 12))
                     .setTransactionRefId(TransactionId + "UPI")
-                    .setDescription(subCategory.summary)
-                    .setAmount(subCategory.title+".00")
+                    .setDescription(subCategory.name.trim())
+                    .setAmount(subCategory.title.substring(1)+".00")
                     .build();
             easyUpiPayment.setPaymentStatusListener(paymentListener);
-            easyUpiPayment.startPayment();
-            if (buyNowButton != null) {
-                buyNowButton.setEnabled(false);
-                buyNowButton.setClickable(false);
+            String nameText = name.getText().toString().trim();
+            String phoneText = number.getText().toString().trim();
+            String addressText = address.getText().toString().trim();
+            if( nameText.length()==0 || phoneText.length()<10|| addressText.length()==0){
+                Toast.makeText(this,"The Details Cannot Be Empty or Incorrect !! Enter The Given Details Correctly",Toast.LENGTH_LONG).show();
+            } else {
+                easyUpiPayment.startPayment();
+                if (buyNowButton != null) {
+                    buyNowButton.setEnabled(false);
+                    buyNowButton.setClickable(false);
+                }
             }
 
         });

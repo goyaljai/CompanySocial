@@ -15,11 +15,6 @@
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
-        <Button
-            android:layout_width="18sp"
-            android:layout_height="16sp"
-            android:background="@drawable/arrow" />
-
         <TextView
             android:id="@+id/category_name"
             android:layout_width="match_parent"
@@ -31,6 +26,12 @@
             android:textFontWeight="700"
             android:textSize="18sp"
             android:textStyle="bold" />
+
+
+        <Button
+            android:layout_width="18sp"
+            android:layout_height="16sp"
+            android:background="@drawable/arrow" />
     </LinearLayout>
 
     <androidx.viewpager.widget.ViewPager

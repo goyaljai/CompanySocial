@@ -64,39 +64,41 @@ public class CategoryFragment extends Fragment {
         slider = view.findViewById(R.id.slider);
 
         init();
-        listViewAdapter = new ListViewAdapter(mContext, mainCategory);
-        ListView listView = view.findViewById(R.id.listView);
-        listView.setAdapter(listViewAdapter);
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (slider.getChildAt(0) != null) {
+        if(mainCategory!=null){
+            listViewAdapter = new ListViewAdapter(mContext, mainCategory);
+            ListView listView = view.findViewById(R.id.listView);
+            listView.setAdapter(listViewAdapter);
+            listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(AbsListView view, int scrollState) {
 
                 }
-                if (listView.getChildAt(0) != null) {
-                    refreshLayout.setEnabled(listView.getFirstVisiblePosition() == 0 && listView.getChildAt(0).getTop() == 0);
+
+                @Override
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                    if (slider.getChildAt(0) != null) {
+
+                    }
+                    if (listView.getChildAt(0) != null) {
+                        refreshLayout.setEnabled(listView.getFirstVisiblePosition() == 0 && listView.getChildAt(0).getTop() == 0);
+                    }
                 }
-            }
-        });
+            });
 
 
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                //Toast.makeText(mContext, "Count is" + count, Toast.LENGTH_LONG).show();
-                count++;
-                refreshLayout.setRefreshing(false);
-                Intent intent = new Intent(getActivity(), MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                        Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        });
+            refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    //Toast.makeText(mContext, "Count is" + count, Toast.LENGTH_LONG).show();
+                    count++;
+                    refreshLayout.setRefreshing(false);
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                            Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+            });
+        }
         return view;
     }
 

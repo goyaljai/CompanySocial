@@ -25,9 +25,6 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
     private String subject;
     private String message;
 
-    //Progressdialog to show while sending email
-    private ProgressDialog progressDialog;
-
     //Class Constructor
     public SendMail(String email, String subject, String message){
 
@@ -47,7 +44,7 @@ public class SendMail extends AsyncTask<Void,Void,Void> {
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
         //Dismissing the progress dialog
-        progressDialog.dismiss();
+//        progressDialog.dismiss();
         //Showing a success message
         //Toast.makeText(context,"Message Sent",Toast.LENGTH_LONG).show();
     }
