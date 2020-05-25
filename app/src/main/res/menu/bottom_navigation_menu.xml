@@ -2,14 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/my9"
+        android:icon="@drawable/h1"
+        android:iconTint="#c8eeee"
         android:title="Home" />
     <item
         android:id="@+id/navigation_sms"
-        android:icon="@drawable/my9"
-        android:title="SMS" />
+        android:icon="@drawable/instagram"
+        android:title="Instagram" />
     <item
         android:id="@+id/navigation_notifications"
-        android:icon="@drawable/my9"
-        android:title="Notification" />
+        android:icon="@drawable/aa"
+        android:title="Whatsapp" />
 </menu>

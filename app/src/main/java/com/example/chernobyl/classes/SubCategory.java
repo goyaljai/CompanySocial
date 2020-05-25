@@ -1,6 +1,11 @@
 package com.example.chernobyl.classes;
 
-public class SubCategory {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class SubCategory implements Serializable {
 
     public String name;
     public String image;

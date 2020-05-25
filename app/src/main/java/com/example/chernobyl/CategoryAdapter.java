@@ -1,6 +1,7 @@
 package com.example.chernobyl;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -78,6 +79,15 @@ public class CategoryAdapter extends PagerAdapter {
         String imageUri = mSubCategory.get(position).image;
         imageUri = "http://13.233.83.239"+imageUri;
         Picasso.with(ctx).load(imageUri).transform(transformation).into(mImageView);
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent  = new Intent(ctx,Detail_Activity.class);
+                intent.putExtra("data",mSubCategory.get(position));
+                ctx.startActivity(intent);
+            }
+        });
         container.addView(view);
         return view;
     }

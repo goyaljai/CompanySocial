@@ -10,7 +10,7 @@ public class MainCategory {
     private String tabName;
     private List<MainSubCategoryData> mMainSubCategories;
     private List<MainSubCategory> mainUISubCategories;
-    private ArrayList<String> subRandomImageList;
+    private ArrayList<SubCategory> subRandomImageList;
 
     public MainCategory(int id, String tabName, List<MainSubCategoryData> subCategories) {
         this.id = id;
@@ -18,7 +18,7 @@ public class MainCategory {
         this.tabName = tabName;
     }
 
-    public MainCategory(List<MainSubCategory> mainSubCategories, int id, String tabName, ArrayList<String> subRandomImageList) {
+    public MainCategory(List<MainSubCategory> mainSubCategories, int id, String tabName, ArrayList<SubCategory> subRandomImageList) {
         this.id = id;
         this.mainUISubCategories = mainSubCategories;
         this.tabName = tabName;
@@ -41,7 +41,7 @@ public class MainCategory {
         return this.mainUISubCategories;
     }
 
-    public ArrayList<String> getRandomImageList() {
+    public ArrayList<SubCategory> getRandomImageList() {
         return this.subRandomImageList;
     }
 }

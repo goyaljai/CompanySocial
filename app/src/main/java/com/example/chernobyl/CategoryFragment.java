@@ -103,50 +103,52 @@ public class CategoryFragment extends Fragment {
 
     private void init() {
         slider = (ViewPager) view.findViewById(R.id.slider);
-        SlidingImage_Adapter slidingImage_adapter = new SlidingImage_Adapter(mContext, mainCategory.getRandomImageList());
-        slider.setAdapter(slidingImage_adapter);
-        CircleIndicator indicator = (CircleIndicator) view.findViewById(R.id.indicator);
-        indicator.setViewPager(slider);
-        slidingImage_adapter.registerDataSetObserver(indicator.getDataSetObserver());
-        NUM_PAGES = mainCategory.getRandomImageList().size();
+        if(mainCategory!=null){
+            SlidingImage_Adapter slidingImage_adapter = new SlidingImage_Adapter(mContext, mainCategory.getRandomImageList());
+            slider.setAdapter(slidingImage_adapter);
+            CircleIndicator indicator = (CircleIndicator) view.findViewById(R.id.indicator);
+            indicator.setViewPager(slider);
+            slidingImage_adapter.registerDataSetObserver(indicator.getDataSetObserver());
+            NUM_PAGES = mainCategory.getRandomImageList().size();
 
-        // Auto start of viewpager
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage == NUM_PAGES) {
-                    currentPage = 0;
+            // Auto start of viewpager
+            final Handler handler = new Handler();
+            final Runnable Update = new Runnable() {
+                public void run() {
+                    if (currentPage == NUM_PAGES) {
+                        currentPage = 0;
+                    }
+                    slider.setCurrentItem(currentPage++, true);
                 }
-                slider.setCurrentItem(currentPage++, true);
-            }
-        };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, 3000, 3000);
+            };
+            Timer swipeTimer = new Timer();
+            swipeTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    handler.post(Update);
+                }
+            }, 3000, 3000);
 
-        // Pager listener over indicator
-        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            // Pager listener over indicator
+            indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-            @Override
-            public void onPageSelected(int position) {
-                currentPage = position;
+                @Override
+                public void onPageSelected(int position) {
+                    currentPage = position;
 
-            }
+                }
 
-            @Override
-            public void onPageScrolled(int pos, float arg1, int arg2) {
+                @Override
+                public void onPageScrolled(int pos, float arg1, int arg2) {
 
-            }
+                }
 
-            @Override
-            public void onPageScrollStateChanged(int pos) {
+                @Override
+                public void onPageScrollStateChanged(int pos) {
 
-            }
-        });
+                }
+            });
+        }
 
     }
 

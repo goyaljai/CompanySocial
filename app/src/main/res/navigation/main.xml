@@ -6,14 +6,14 @@
     tools:ignore="UnusedNavigation"
     app:startDestination="@id/my_frag1"
     >
-<fragment android:id="@+id/my_frag1"
-    android:name="com.example.chernobyl.BlankFragment"
-    android:label="myfrag"
-    tools:layout="@layout/fragment_blank"
-    ></fragment>
-    <fragment android:id="@+id/my_frag2"
+    <fragment
+        android:id="@+id/my_frag1"
+        android:name="com.example.chernobyl.BlankFragment"
+        android:label="myfrag"
+        tools:layout="@layout/fragment_blank" />
+    <fragment
+        android:id="@+id/my_frag2"
         android:name="com.example.chernobyl.CategoryFragment"
         android:label="myfrag"
-        tools:layout="@layout/fragment_category_frag"
-        ></fragment>
+        tools:layout="@layout/fragment_category_frag" />
 </navigation>

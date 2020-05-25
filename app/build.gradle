@@ -15,12 +15,6 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
     compileOptions {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
@@ -47,11 +41,14 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-moshi:2.4.0"
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'androidx.drawerlayout:drawerlayout:1.0.0'
-    // Glide image library
     implementation 'androidx.navigation:navigation-fragment:2.2.1'
     implementation 'androidx.navigation:navigation-ui:2.2.1'
     implementation "com.squareup.okhttp3:okhttp:3.10.0"
     implementation "com.squareup.okio:okio:1.16.0"
     implementation 'com.squareup.picasso:picasso:2.6.0-SNAPSHOT'
     implementation "androidx.viewpager2:viewpager2:1.0.0"
+    implementation 'com.shreyaspatil:EasyUpiPayment:2.1'
+    implementation 'com.sun.mail:android-mail:1.5.5'
+    implementation 'com.sun.mail:android-activation:1.5.5'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
 }

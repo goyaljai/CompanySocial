@@ -1,6 +1,7 @@
 package com.example.chernobyl;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Parcelable;
 import android.util.Log;
@@ -11,23 +12,22 @@ import android.widget.ImageView;
 
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.example.chernobyl.classes.MainCategory;
+import com.example.chernobyl.classes.SubCategory;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 
-/**
- * Created by Parsania Hardik on 23/04/2016.
- */
 public class SlidingImage_Adapter extends PagerAdapter {
 
 
-    private ArrayList<String> randomImageList;
+    private ArrayList<SubCategory> randomImageList;
     private LayoutInflater inflater;
     private Context context;
 
 
-    public SlidingImage_Adapter(Context context, ArrayList<String> imageModelArrayList) {
+    public SlidingImage_Adapter(Context context, ArrayList<SubCategory> imageModelArrayList) {
         this.context = context;
         this.randomImageList = imageModelArrayList;
         inflater = LayoutInflater.from(context);
@@ -55,7 +55,7 @@ public class SlidingImage_Adapter extends PagerAdapter {
         assert imageLayout != null;
 
         final ImageView imageView = (ImageView) imageLayout.findViewById(R.id.slide_image);
-        String imageUri = "http://13.233.83.239" + randomImageList.get(position);
+        String imageUri = "http://13.233.83.239" + randomImageList.get(position).image;
 
         Transformation transformation = new Transformation() {
 
@@ -83,6 +83,12 @@ public class SlidingImage_Adapter extends PagerAdapter {
 
         Picasso.with(context).load(imageUri).transform(transformation).into(imageView);
         view.addView(imageLayout);
+        imageLayout.setOnClickListener(v -> {
+
+            Intent intent  = new Intent(context,Detail_Activity.class);
+            intent.putExtra("data",randomImageList.get(position));
+            context.startActivity(intent);
+        });
         return imageLayout;
     }
 

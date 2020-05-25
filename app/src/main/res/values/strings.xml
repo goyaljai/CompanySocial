@@ -2,12 +2,25 @@
     <string name="app_name">Chernobyl</string>
 
     <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="openDrawer">open drawer</string>
+    <string name="closeDrawer">close drawer</string>
+    <string name="title_activity_detail_">Detail_Activity</string>
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_main_category_expanded">MainCategoryExpandedActivity</string>
+    <string name="first_fragment_label">First Fragment</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="hello_first_fragment">Hello first fragment</string>
+
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string-array name="nav_item_activity_titles">
         <item>Tab 1</item>
         <item>Tab 2</item>
         <item>Tab 3</item>
     </string-array>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="openDrawer">open drawer</string>
-    <string name="closeDrawer">close drawer</string>
 </resources>

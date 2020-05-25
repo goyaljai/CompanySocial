@@ -2,6 +2,7 @@ package com.example.chernobyl;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
@@ -10,16 +11,11 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.collection.LruCache;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
 import com.example.chernobyl.classes.AppData;
 import com.example.chernobyl.classes.ErrorActivity;
@@ -31,6 +27,7 @@ import com.example.chernobyl.classes.SubCategoryData;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.tabs.TabLayout;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -42,12 +39,18 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.collection.LruCache;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener {
+public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener, DrawerItem.DrawerItemClickListener {
 
     private ArrayList<LruCache<Integer, Bitmap>> mLruCacheList = new ArrayList<>();
     protected List<List<AppData>> appData;
@@ -63,12 +66,12 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private TabPager adapter;
     private ViewPager pager;
     private ActionBar actionBar;
-    private TextView textView;
+    private TopLinearLayout topLinearLayout;
     private ActionBar.LayoutParams layoutParams;
     private LinkedHashMap<Integer, Integer> tabIdMap;
     private LinkedHashMap<Integer, String> tabNameMap;
     private LinkedHashMap<Integer, List<MainSubCategoryData>> helper;
-    private ArrayList<String> subRandomImageList;
+    private ArrayList<SubCategory> subRandomImageList;
 
     private void requestDataForApp() {
 
@@ -272,7 +275,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
 
     private void init() {
-        Log.d("Finally1", mainCategoryList.size() + " ");
         mTabLayout = findViewById(R.id.tabLayout);
         mainCategoryUIList = new ArrayList<>();
         for (int k = 0; k < tabSize; k++) {
@@ -297,6 +299,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         System.out.println("tabselecteddd  " + mTabLayout.getSelectedTabPosition());
         pager = findViewById(R.id.main_pager);
         adapter = new TabPager(getSupportFragmentManager(), mTabLayout.getTabCount(), this, mainCategoryUIList);
+        setDrawerItemList(mainCategoryUIList);
         pager.setAdapter(adapter);
 
         mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -305,17 +308,117 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.navigation_sms:
-                case R.id.navigation_notifications: {
+                {
                     Uri uri = Uri.parse("https://www.instagram.com/everything_abt_clothes/"); // missing 'http://' will cause crashed
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(intent);
                     return true;
                 }
+                case R.id.navigation_notifications:
+                {
+                    PackageManager packageManager = getPackageManager();
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+
+                    try {
+                        String url = "https://api.whatsapp.com/send?phone="+ "917567049453" +"&text=" + URLEncoder.encode("", "UTF-8");
+                        i.setPackage("com.whatsapp");
+                        i.setData(Uri.parse(url));
+                        if (i.resolveActivity(packageManager) != null) {
+                            startActivity(i);
+                        }
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
             }
             return false;
         });
+        initDrawer();
+
+    }
+
+    String mTitle = "";
+    String mDrawerTitle = "";
+    ListView mDrawerList = null;
+    DrawerAdatper mAdatper = null;
+    DrawerLayout mDrawerLayout = null;
+    Integer mDrawerItemSelectedPosition = -1;
+    ActionBarDrawerToggle mDrawerToggle = null;
+    List<DrawerItem> mDrawerItems = new ArrayList<DrawerItem>();
+
+    private void initDrawer() {
+
+        mTitle = getResources().getString(R.string.app_name);
+        mDrawerTitle = "JAI";
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.drawer_list);
+        topLinearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.closeDrawer, R.string.app_name) {
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                setTitle(mTitle);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                setTitle(mDrawerTitle);
+            }
+
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        mAdatper = new DrawerAdatper(this, R.layout.drawer_item_layout,
+                R.layout.drawer_item_group_layout, mDrawerItems);
+        mDrawerList.setAdapter(mAdatper);
+        mDrawerList.setOnItemClickListener(this);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+       // mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onItemClick(AdapterView adapter, View view, int position,
+                            long id) {
+        DrawerItem item = mDrawerItems.get(position);
+        if (!item.isGroupTitle()) {
+            mDrawerItemSelectedPosition = position;
+            Intent intent = new Intent(this, MainCategoryExpandedActivity.class);
+            intent.putExtra("data", item.getMainCategory());
+            startActivity(intent);
+        }
+        mDrawerList.setItemChecked(mDrawerItemSelectedPosition, true);
+        mDrawerLayout.closeDrawers();
+    }
 
 
+    private void setDrawerItemList(ArrayList<MainCategory> mainCategoryUIList) {
+
+        for (MainCategory mc : mainCategoryUIList) {
+            mDrawerItems.add(new DrawerItem(mc.getId(), mc.getTitle(), true));
+            for (MainSubCategory msc : mc.getMainUISubCategories()) {
+                mDrawerItems.add(new DrawerItem(msc.id, msc.description, msc, 0));
+            }
+        }
     }
 
     private void setCategoryData(MainSubCategoryData mainsubCategoryData) {
@@ -331,9 +434,10 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             mName[i] = subCategoryData.getImgtitle();
             mSummary[i] = subCategoryData.getImgdesc();
             imgArray[i] = subCategoryData.getUrl();
-            subCategories.add(new SubCategory(mCategoryName, imgArray[i], mSummary[i], mName[i]));
+            SubCategory cat = new SubCategory(mCategoryName, imgArray[i], mSummary[i], mName[i]);
+            subCategories.add(cat);
             if (randCount < 2) {
-                subRandomImageList.add(imgArray[i]);
+                subRandomImageList.add(cat);
                 randCount++;
             }
         }
@@ -357,23 +461,17 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private void ActionBarTitleGravity(String appTitle) {
 
         actionBar = getSupportActionBar();
-        textView = new TextView(getApplicationContext());
+        topLinearLayout = new TopLinearLayout(getApplicationContext());
 
         layoutParams = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT);
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        textView.setLayoutParams(layoutParams);
-        textView.setText(appTitle);
-        textView.setTextColor(Color.WHITE);
-        textView.setGravity(Gravity.CENTER);
-        textView.setTextSize(22);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setCustomView(textView);
-        textView.setOnClickListener(v -> {
-            Uri uri = Uri.parse("https://www.instagram.com/everything_abt_clothes/"); // missing 'http://' will cause crashed
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
-        });
+        actionBar.setCustomView(topLinearLayout);
+        /*topLinearLayout.setOnClickListener(v -> {
+            Log.d("JAI","here");
+            mDrawerLayout.openDrawer(Gravity.LEFT);
+        });*/
 
     }
 

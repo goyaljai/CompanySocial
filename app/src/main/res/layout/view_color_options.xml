@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <RelativeLayout
+
+        android:id="@+id/badge_layout1"
+        android:layout_width="70dp"
+        android:layout_height="50dp">
+
+        <RelativeLayout
+
+            android:id="@+id/relative_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/menu2" />
+
+        </RelativeLayout>
+
+        <pl.droidsonroids.gif.GifImageView
+            android:layout_width="35dp"
+            android:layout_height="20dp"
+            android:layout_alignTop="@+id/relative_layout"
+            android:layout_alignEnd="@+id/relative_layout"
+            android:layout_marginTop="-10dp"
+            android:layout_marginEnd="-20dp"
+            android:background="@drawable/tenor"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:fontFamily="@font/amazon"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="Everything About Clothes"
+        android:textColor="@color/white"
+        android:textSize="22sp" />
+
+</merge>
