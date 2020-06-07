@@ -3,9 +3,6 @@
     <color name="white">#FFFFFF</color>
     <color name="colorPrimary">#0E171E</color>
     <color name="colorPrimaryDark">#125688</color>
-    <color name="textColorPrimary">#FFFFFF</color>
-    <color name="windowBackground">#FFFFFF</color>
-    <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#c8e8ff</color>
 
     <color name="black_overlay">#66000000</color>

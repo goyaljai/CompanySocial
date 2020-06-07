@@ -17,7 +17,6 @@
             android:layout_alignParentBottom="true">
 
             <Button
-                android:id="@+id/button1"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:background="@drawable/menu2" />
@@ -44,7 +43,7 @@
         android:layout_weight="1"
         android:fontFamily="@font/amazon"
         android:gravity="center_horizontal|center_vertical"
-        android:text="Everything About Clothes"
+        android:text="Diya Closets"
         android:textColor="@color/white"
         android:textSize="22sp" />
 

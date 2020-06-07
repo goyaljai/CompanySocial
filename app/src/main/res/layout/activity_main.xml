@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.example.chernobyl.NonSwippableViewPager
+            <com.eaclothes.chernobyl.NonSwippableViewPager
                 android:id="@+id/main_pager"
                 android:layout_width="match_parent"
                 android:layout_marginBottom="50dp"

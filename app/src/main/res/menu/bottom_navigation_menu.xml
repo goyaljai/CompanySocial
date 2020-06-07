@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_home"
         android:icon="@drawable/h1"
         android:iconTint="#c8eeee"
         android:title="Home" />
     <item
         android:id="@+id/navigation_sms"
-        android:icon="@drawable/instagram"
-        android:title="Instagram" />
+        android:icon="@drawable/facebook"
+        android:iconTint="#c8eeee"
+        android:title="Facebook" />
     <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/aa"

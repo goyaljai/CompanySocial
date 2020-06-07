@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.example.chernobyl.MySwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.eaclothes.chernobyl.MySwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/refresh"
     android:layout_width="match_parent"
     android:layout_height="0dp">
 
     <LinearLayout
-        android:id="@+id/sample_frag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -37,4 +36,4 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
-</com.example.chernobyl.MySwipeRefreshLayout>
+</com.eaclothes.chernobyl.MySwipeRefreshLayout>

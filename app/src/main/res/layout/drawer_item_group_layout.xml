@@ -19,7 +19,6 @@
         android:textStyle="bold" />
 
     <View
-        android:id="@+id/viewDrawerGroupView"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#BEBEBE" />

@@ -7,7 +7,6 @@
     tools:context=".Detail_Activity">
 
     <LinearLayout
-        android:id="@+id/fullscreen_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="14dp"
@@ -38,8 +37,8 @@
                 android:textStyle="bold"
                 android:fontFamily="@font/amazon"
                 android:textSize="25sp"
-                android:textColor="@color/white"
-                android:text="700"/>
+                android:textColor="@color/colorAccent"
+                android:text="56654"/>
 
 
             <TextView
@@ -49,7 +48,7 @@
                 android:id="@+id/detail_desc"
                 android:fontFamily="@font/amazon"
                 android:textSize="22sp"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/white"
                 android:text="This is a Good Product"
                 />
 
@@ -62,7 +61,18 @@
                 android:layout_marginBottom="13dp"
                 android:fontFamily="@font/amazon"
                 android:textColor="@color/colorAccent"
-                android:text="Brought to you by Everything About Clothes"/>
+                android:text="Brought to you by Diya Closets."/>
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="13sp"
+                android:layout_marginBottom="13dp"
+                android:fontFamily="@font/amazon"
+                android:textColor="@color/white"
+                android:text=" NO RETURN, NO CANCELLATION, NO COD"/>
 
 
             <TextView

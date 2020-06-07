@@ -1,49 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.chernobyl">
+    package="com.eaclothes.chernobyl">
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="Everything About Clothes"
+        android:label="Diya Closets"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/MyMaterialTheme.Base"
         android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="AllowBackup">
         <activity
-            android:name=".MainCategoryExpandedActivity"
+            android:name="com.eaclothes.chernobyl.MainCategoryExpandedActivity"
             android:launchMode="singleTop"
             android:label="@string/title_activity_main_category_expanded"
             android:theme="@style/MyMaterialTheme.Base.NoActionBar" />
         <activity
-            android:name=".Detail_Activity"
+            android:name="com.eaclothes.chernobyl.Detail_Activity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_detail_"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" />
         <activity
-            android:name=".classes.ErrorActivity"
+            android:name="com.eaclothes.chernobyl.classes.ErrorActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.eaclothes.chernobyl.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:launchMode="singleTop"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>
